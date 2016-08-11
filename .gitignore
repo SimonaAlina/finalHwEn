@@ -2,7 +2,7 @@
 **/.project
 **/.settings
 **/pom.properties
-.idea
+Wiki-Explorer/.idea/*
 Wiki-Explorer/wikiindexer.iml
 **/.class
 /target
