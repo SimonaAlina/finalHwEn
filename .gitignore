@@ -4,5 +4,6 @@
 **/pom.properties
 Wiki-Explorer/.idea/*
 Wiki-Explorer/wikiindexer.iml
+Wiki-Explorer/src/main/main.iml
 **/.class
 /target
