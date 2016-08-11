@@ -1,0 +1,8 @@
+**/.classpath
+**/.project
+**/.settings
+**/pom.properties
+.idea
+wikiindexer.iml
+**/.class
+/target
