@@ -3,6 +3,6 @@
 **/.settings
 **/pom.properties
 .idea
-wikiindexer.iml
+Wiki-Explorer/wikiindexer.iml
 **/.class
 /target
