@@ -43,6 +43,14 @@ public class Article {
         this.articleName = articleName;
     }
 
+    public List<ArticleTopWords> getWordsContorList() {
+        return wordsContorList;
+    }
+
+    public void setWordsContorList(List<ArticleTopWords> wordsContorList) {
+        this.wordsContorList = wordsContorList;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
