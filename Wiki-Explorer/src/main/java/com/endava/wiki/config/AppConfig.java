@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @ComponentScan(basePackages = "com.endava.wiki")
@@ -53,7 +54,8 @@ public class AppConfig {
 	@Bean
 	public InternalResourceViewResolver viewResolver(){
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		//viewResolver.setPrefix("/WEB-INF/");
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}

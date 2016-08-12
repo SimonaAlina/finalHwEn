@@ -142,10 +142,21 @@
 			<artifactId>dozer</artifactId>
 			<version>${dozer.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.bluestemsoftware.open.maven.tparty</groupId>
+			<artifactId>jsp-api-2.1</artifactId>
+			<version>6.1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
+		<finalName>tema</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
