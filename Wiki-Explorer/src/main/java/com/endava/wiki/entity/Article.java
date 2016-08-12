@@ -1,6 +1,7 @@
 package com.endava.wiki.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "articles")
@@ -8,17 +9,30 @@ public class Article {
 
     @Id
     @GeneratedValue
-    private Long id;
+    @Column(name = "id")
+    private Long articleId;
 
     @Column(name = "article_name")
     private String articleName;
 
-    public Long getId() {
-        return id;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<ArticleTopWords> wordsContorList;
+
+    public Article(String articleName) {
+        super();
+        this.articleName = articleName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Article() {
+        super();
+    }
+
+    public Long getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
     }
 
     public String getArticleName() {
@@ -32,7 +46,7 @@ public class Article {
     @Override
     public String toString() {
         return "Article{" +
-                "id=" + id +
+                "articleId=" + articleId +
                 ", articleName='" + articleName + '\'' +
                 '}';
     }

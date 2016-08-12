@@ -16,8 +16,21 @@ public class ArticleTopWords {
     private String word;
     @Column(name = "count")
     private Integer count;
-    @Column(name = "art_id")
-    private long artId;
+
+    @ManyToOne
+    @JoinColumn(name = "articleId")
+    private Article article;
+
+    public ArticleTopWords(String word, Integer count, Article article) {
+        super();
+        this.word = word;
+        this.count = count;
+        this.article = article;
+    }
+
+    public ArticleTopWords() {
+        super();
+    }
 
     public Long getId() {
         return id;
@@ -43,21 +56,13 @@ public class ArticleTopWords {
         this.count = count;
     }
 
-    public long getArtId() {
-        return artId;
-    }
-
-    public void setArtId(long artId) {
-        this.artId = artId;
-    }
-
     @Override
     public String toString() {
         return "ArticleTopWords{" +
                 "id=" + id +
                 ", word='" + word + '\'' +
                 ", count=" + count +
-                ", artId=" + artId +
+                ", articleOwner=" + article.getArticleName() +
                 '}';
     }
 }
