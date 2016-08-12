@@ -15,5 +15,6 @@ public interface ArticleService {
     ArticleDTO getArticleByName(String articleName);
     List<ArticleDTO> getAllArticles();
     ArticleDTO saveArticle(ArticleDTO articleDTO);
+    void getArticleFromWeb(String articleName);
 
 }
