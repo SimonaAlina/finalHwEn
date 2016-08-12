@@ -34,4 +34,12 @@ public class ArticleController {
         return mv;
     }
 
+    //todo : metoda pt. upload fisiere
+    //todo ; parsare fisier de upload (cu titluri)
+
+    //todo : service responsabil cu download.
+    //todo : service responsabil cu parsarea continutului unui wiki intoarce (Map<String, Int>)
+    //todo : service + repo + entitati : responsabile cu DB.
+    //todo : multithreading.
+
 }

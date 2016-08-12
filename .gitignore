@@ -3,7 +3,8 @@
 **/.settings
 **/pom.properties
 Wiki-Explorer/.idea/*
+Wiki-Explorer/.idea/*.xml
 Wiki-Explorer/wikiindexer.iml
 Wiki-Explorer/src/main/main.iml
+**/Wiki-Explorer/target/
 **/.class
-/target

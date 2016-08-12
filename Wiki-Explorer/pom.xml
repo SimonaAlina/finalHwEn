@@ -156,7 +156,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>tema</finalName>
+		<finalName>wikiindexer</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
