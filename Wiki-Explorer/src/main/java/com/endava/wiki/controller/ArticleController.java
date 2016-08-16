@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -22,16 +23,26 @@ public class ArticleController {
 
     @Autowired
     private ApplicationContext applicationContext;
-
+//redenumire
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getBook(@PathVariable Integer id) {
         List<WordCountDto> wc = Arrays.asList(new WordCountDto("gigel",2), new WordCountDto("ionel",3));
 
         ModelAndView mv = new ModelAndView("index");
-        mv.addObject("aBinding","cel tare-n tenis");
+        mv.addObject("aBinding","cel ...");
         mv.addObject("wordCount",wc);
 
         return mv;
+    }
+
+    //todo : properly handle exception
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    public String handleFormUpload( @RequestParam("theFile") MultipartFile file) throws Exception{
+
+        String theContent = new String(file.getBytes());
+
+
+        return "";
     }
 
     //todo : metoda pt. upload fisiere
