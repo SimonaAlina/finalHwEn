@@ -2,10 +2,12 @@ package com.endava.wiki.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.endava.wiki.dto.WordCountDto;
 import com.endava.wiki.service.ArticleService;
+import com.endava.wiki.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -21,13 +23,14 @@ public class ArticleController {
 	
 	@Autowired
 	private ArticleService articleService;
+    @Autowired
+    private WikiService wikiService;
 
     @Autowired
     private ApplicationContext applicationContext;
 
-    //redenumire
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getBook(@PathVariable Integer id) {
+    public ModelAndView getParamTest(@PathVariable Integer id) {
         List<WordCountDto> wc = Arrays.asList(new WordCountDto("gigel",2), new WordCountDto("ionel",3));
 
         ModelAndView mv = new ModelAndView("index");
@@ -37,10 +40,11 @@ public class ArticleController {
         return mv;
     }
 
-    @RequestMapping(value = "/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
     public ModelAndView getTopWords(@PathVariable String title) {
 
         ModelAndView mv = new ModelAndView("index");
+        Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
 
         return mv;
     }
@@ -52,6 +56,8 @@ public class ArticleController {
 
         try {
             String content = new String(file.getBytes());
+            Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,7 @@
 package com.endava.wiki.service;
 
+import com.endava.wiki.dto.ArticleDTO;
+
 import java.util.Hashtable;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Hashtable;
  */
 public interface WikiArticleService {
 
-    void getContentFromWeb(String articleName);
-    Hashtable<String, Integer> parseContent(String content);
+    ArticleDTO getResultFromWiki(String title);
+
+    String getContentFromWiki(String articleName);
+
 }
