@@ -31,6 +31,8 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDTO getArticleById(Long articleId) {
         Article article = articleRepository.findOne(articleId);
         // map entity to DTO
+        if(article == null)
+            return null;
         return mappingArticle.mapEntityToDto(article);
     }
 
@@ -39,6 +41,8 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDTO getArticleByName(String articleName) {
         Article article = articleRepository.findByArticleName(articleName);
         // map entity to DTO
+        if(article == null)
+            return null;
         return mappingArticle.mapEntityToDto(article);
     }
 
