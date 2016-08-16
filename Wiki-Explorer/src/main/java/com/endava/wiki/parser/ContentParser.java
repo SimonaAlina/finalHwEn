@@ -38,10 +38,12 @@ public class ContentParser {
         StringTokenizer token = new StringTokenizer(content, delimiters);
         while (token.hasMoreTokens()) {
             String word = token.nextToken().toLowerCase();
-            if (word.matches("[0-9]+"))
+            if (word.matches("[0-9]+")) {
                 continue;
-            if (COMMON_WORDS.contains(word))
+            }
+            if (COMMON_WORDS.contains(word)) {
                 continue;
+            }
             if (wordsFreq.get(word) == null) {
                 wordsFreq.put(word, 1);
             } else {
