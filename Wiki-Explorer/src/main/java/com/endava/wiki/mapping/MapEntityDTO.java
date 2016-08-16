@@ -22,7 +22,18 @@ public class MapEntityDTO {
     private ArticleRepository articleRepository;
 
     public Article mapDtoToEntity(ArticleDTO articleDTO) {
-        return articleRepository.findOne(articleDTO.getArticleId());
+
+        Article article = articleRepository.findOne(articleDTO.getArticleId());
+        if (article == null) {
+            article = new Article();
+            article.setArticleName(articleDTO.getArticleName());
+            List<ArticleTopWords> words = new ArrayList<ArticleTopWords>();
+            for(Map.Entry<String, Integer> entry : articleDTO.getWordCount().entrySet()) {
+                words.add(new ArticleTopWords(entry.getKey(), entry.getValue(), article));
+            }
+            article.setWordsContorList(words);
+        }
+        return article;
     }
 
     public ArticleDTO mapEntityToDto(Article articleEntyty) {
@@ -32,7 +43,7 @@ public class MapEntityDTO {
         articleDTO.setArticleName(articleEntyty.getArticleName());
 
         Hashtable<String, Integer> wordCount = new Hashtable<String, Integer>();
-        for(ArticleTopWords article : articleEntyty.getWordsContorList()) {
+        for (ArticleTopWords article : articleEntyty.getWordsContorList()) {
             wordCount.put(article.getWord(), article.getCount());
         }
         articleDTO.setWordCount(wordCount);
