@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sroboiu on 16-Aug-16.
@@ -36,7 +37,7 @@ public class WikiServiceImpl implements WikiService {
     @Override
     public Hashtable<String , Integer> getMultipleResult(String content) {
 
-        List<String> titles = fileParser.parseInputFile(content);
+        Set<String> titles = fileParser.parseInputFile(content);
         if(titles == null || titles.isEmpty())
             return null;
         Hashtable<String, Integer> result = new Hashtable<String, Integer>();

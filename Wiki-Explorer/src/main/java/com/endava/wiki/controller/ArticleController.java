@@ -20,9 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/wikiapp")
 public class ArticleController {
-	
-	@Autowired
-	private ArticleService articleService;
+
+    @Autowired
+    private ArticleService articleService;
     @Autowired
     private WikiService wikiService;
 
