@@ -2,15 +2,22 @@ package com.endava.wiki.parser;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
-/**
- * Created by sroboiu on 16-Aug-16.
- */
+import java.util.*;
+
+
 @Component
 public class FileParser {
 
-    public List<String> parseInputFile(String content) {
-        return null;
+    private String delimiters = "\r\n";
+
+    public Set<String> parseInputFile(String content) {
+
+        Set<String> result = new HashSet<String>();
+        StringTokenizer token = new StringTokenizer(content, delimiters);
+        while (token.hasMoreTokens()) {
+            result.add(token.nextToken());
+        }
+        return result;
     }
 }
