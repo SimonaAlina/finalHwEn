@@ -1,5 +1,6 @@
 package com.endava.wiki.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -30,6 +32,28 @@ public class ArticleController {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("aBinding","cel tare-n tenis");
         mv.addObject("wordCount",wc);
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/{title}", method = RequestMethod.GET)
+    public ModelAndView getTopWords(@PathVariable String title) {
+
+        ModelAndView mv = new ModelAndView("index");
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/getTitles", method = RequestMethod.POST)
+    public ModelAndView getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
+
+        ModelAndView mv = new ModelAndView("index");
+
+        try {
+            String content = new String(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return mv;
     }
