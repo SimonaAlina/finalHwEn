@@ -42,6 +42,7 @@ public class WikiServiceImpl implements WikiService {
         if (articleDTO == null) {
             articleDTO = new ArticleDTO();
             articleDTO.setArticleName(title);
+            articleDTO.setWordCount(new Hashtable<String, Integer>());
             articleDTO = articleService.saveArticle(articleDTO);
 
             System.out.println("WikiService: articleDto saved:" + articleDTO);
@@ -57,6 +58,7 @@ public class WikiServiceImpl implements WikiService {
                 articleTopWordsService.saveArticleTopWords(articleTopWordsDTO);
             }
             articleDTO.setWordCount(wordsCount);
+            System.out.println("WikiService result: " + articleDTO.getWordCount());
 
         }
         return articleDTO.getWordCount();
