@@ -1,0 +1,82 @@
+body {
+    background-image: url(../img/walle.jpg); /*You will specify your image path here.*/
+
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: top;!important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;
+
+
+}
+
+/*Button Submit*/
+.button-wrapper {
+    display: block;
+    text-align: center;
+}
+.btn{
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-box-shadow: 1px 5px 7px #4596b5;
+    -moz-box-shadow: 1px 5px 7px #4596b5;
+    box-shadow: 1px 5px 7px #4596b5;
+    font-family: Arial;
+    color: #f5f5f5;
+    font-size: 20px;
+    padding: 8px 20px 8px 20px;
+    border: solid #71a0bd 0px;
+    text-decoration: none;
+}
+
+.btn-submit:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+
+
+/*Button Upload*/
+.btn-chose {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 12;
+    -moz-border-radius: 12;
+    border-radius: 12px;
+    -webkit-box-shadow: 1px 5px 7px #4596b5;
+    -moz-box-shadow: 1px 5px 7px #4596b5;
+    box-shadow: 1px 5px 7px #4596b5;
+    font-family: Arial;
+    color: #f5f5f5;
+    font-size: 20px;
+    padding: 8px 20px 8px 20px;
+    border: solid #71a0bd 0px;
+    text-decoration: none;
+}
+
+.btn-choseFile:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
