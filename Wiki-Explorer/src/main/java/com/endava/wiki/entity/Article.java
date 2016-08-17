@@ -2,6 +2,7 @@ package com.endava.wiki.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "articles")
@@ -9,14 +10,14 @@ public class Article {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "article_id")
     private Long articleId;
 
     @Column(name = "article_name")
     private String articleName;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private List<ArticleTopWords> wordsContorList;
+    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
+    private Set<ArticleTopWords> wordsContorList;
 
     public Article(String articleName) {
         super();
@@ -43,12 +44,16 @@ public class Article {
         this.articleName = articleName;
     }
 
-    public List<ArticleTopWords> getWordsContorList() {
+    public Set<ArticleTopWords> getWordsContorList() {
         return wordsContorList;
     }
 
-    public void setWordsContorList(List<ArticleTopWords> wordsContorList) {
+    public void setWordsContorList(Set<ArticleTopWords> wordsContorList) {
         this.wordsContorList = wordsContorList;
+    }
+
+    public void addItemToWordsContorList(ArticleTopWords articleTopWords) {
+        this.wordsContorList.add(articleTopWords);
     }
 
     @Override

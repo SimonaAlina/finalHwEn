@@ -49,7 +49,8 @@ public class AppConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
                                                                        @Value("${hibernate.dialect}") String hDialect,
-                                                                       @Value("${hibernate.show_sql}") String hShowSql) {
+                                                                       @Value("${hibernate.show_sql}") String hShowSql,
+                                                                       @Value("${hibernate.format_sql}") String hFormatSql) {
 
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setPackagesToScan("com.endava.wiki.entity");
@@ -57,6 +58,8 @@ public class AppConfig {
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.dialect", hDialect);
         jpaProperties.setProperty("hibernate.show_sql", hShowSql);
+        jpaProperties.setProperty("hibernate.format_sql", hFormatSql);
+//        jpaProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         emf.setJpaProperties(jpaProperties);
         emf.setDataSource(dataSource);
         return emf;

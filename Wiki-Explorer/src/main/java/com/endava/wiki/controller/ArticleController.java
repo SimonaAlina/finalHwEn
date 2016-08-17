@@ -10,6 +10,7 @@ import com.endava.wiki.service.ArticleService;
 import com.endava.wiki.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/wikiapp")
+@Scope(value = "session")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
     @Autowired
     private WikiService wikiService;
 
@@ -43,8 +43,14 @@ public class ArticleController {
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
     public ModelAndView getTopWords(@PathVariable String title) {
 
+        System.out.println("Controller: begining");
+
         ModelAndView mv = new ModelAndView("index");
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
+        //todo: sort hashtable and extract top ten
+        mv.addObject("topWords", result);
+
+        System.out.println("Result:\n" + result);
 
         return mv;
     }
@@ -57,6 +63,8 @@ public class ArticleController {
         try {
             String content = new String(file.getBytes());
             Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
+            //todo: sort hashtable and extract top ten
+            mv.addObject("topWords", result);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +79,6 @@ public class ArticleController {
     public String handleFormUpload (@RequestParam("theFile") MultipartFile file) throws Exception {
 
         String theContent = new String(file.getBytes());
-
 
         return "";
     }

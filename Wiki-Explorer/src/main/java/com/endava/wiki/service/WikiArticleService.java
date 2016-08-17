@@ -9,7 +9,7 @@ import java.util.Hashtable;
  */
 public interface WikiArticleService {
 
-    ArticleDTO getResultFromWiki(String title);
+    Hashtable<String, Integer> parseContentResultFromWiki(String title);
 
     String getContentFromWiki(String articleName);
 

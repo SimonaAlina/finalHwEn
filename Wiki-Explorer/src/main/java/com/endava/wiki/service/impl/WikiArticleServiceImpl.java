@@ -25,14 +25,11 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     ContentParser contentParser;
 
     @Override
-    public ArticleDTO getResultFromWiki(String title) {
+    public Hashtable<String, Integer> parseContentResultFromWiki(String title) {
 
-        ArticleDTO articleDTO = new ArticleDTO();
         String content = getContentFromWiki(title);
         Hashtable<String, Integer> result = contentParser.parseContent(content);
-        articleDTO.setArticleName(title);
-        articleDTO.setWordCount(result);
-        return articleDTO;
+        return result;
     }
 
     @Override

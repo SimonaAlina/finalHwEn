@@ -5,6 +5,7 @@ import com.endava.wiki.entity.Article;
 import com.endava.wiki.mapping.MapEntityDTO;
 import com.endava.wiki.repository.ArticleRepository;
 import com.endava.wiki.service.ArticleService;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private MapEntityDTO mappingArticle;
 
-
     @Override
     @Transactional(readOnly = true)
     public ArticleDTO getArticleById(Long articleId) {
@@ -39,7 +39,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public ArticleDTO getArticleByName(String articleName) {
-        Article article = articleRepository.findByArticleName(articleName);
+
+        System.out.println("ArticleService: getArticleByName: " + articleName);
+
+        Article article = articleRepository.findFirstByArticleName(articleName);
+        System.out.println("Find Article: " + article);
         // map entity to DTO
         if(article == null)
             return null;
@@ -64,7 +68,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public ArticleDTO saveArticle(ArticleDTO articleDTO) {
-        Article article = new MapEntityDTO().mapDtoToEntity(articleDTO);
+        Article article = mappingArticle.mapDtoToEntity(articleDTO);
+
         return mappingArticle.mapEntityToDto(articleRepository.save(article));
     }
 }

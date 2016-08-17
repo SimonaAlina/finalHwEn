@@ -42,4 +42,13 @@ public class ArticleDTO {
     public void setArticleName(String articleName) {
         this.articleName = articleName;
     }
+
+    @Override
+    public String toString() {
+        return "ArticleDTO{" +
+                "articleId=" + articleId +
+                ", articleName='" + articleName + '\'' +
+                ", wordCount=" + wordCount +
+                '}';
+    }
 }
