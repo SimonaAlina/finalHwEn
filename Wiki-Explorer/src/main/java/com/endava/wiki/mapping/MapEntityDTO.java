@@ -7,10 +7,7 @@ import com.endava.wiki.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sroboiu on 12-Aug-16.
@@ -23,11 +20,14 @@ public class MapEntityDTO {
 
     public Article mapDtoToEntity(ArticleDTO articleDTO) {
 
-        Article article = articleRepository.findOne(articleDTO.getArticleId());
+        Article article = articleRepository.findFirstByArticleName(articleDTO.getArticleName());
         if (article == null) {
             article = new Article();
+            //article.setArticleId(articleDTO.getArticleId());
             article.setArticleName(articleDTO.getArticleName());
-            List<ArticleTopWords> words = new ArrayList<ArticleTopWords>();
+            if(articleDTO.getWordCount() == null || articleDTO.getWordCount().isEmpty())
+                return article;
+            Set<ArticleTopWords> words = new HashSet<>();
             for(Map.Entry<String, Integer> entry : articleDTO.getWordCount().entrySet()) {
                 words.add(new ArticleTopWords(entry.getKey(), entry.getValue(), article));
             }
@@ -36,14 +36,16 @@ public class MapEntityDTO {
         return article;
     }
 
-    public ArticleDTO mapEntityToDto(Article articleEntyty) {
+    public ArticleDTO mapEntityToDto(Article articleEntity) {
 
         ArticleDTO articleDTO = new ArticleDTO();
-        articleDTO.setArticleId(articleEntyty.getArticleId());
-        articleDTO.setArticleName(articleEntyty.getArticleName());
+        articleDTO.setArticleId(articleEntity.getArticleId());
+        articleDTO.setArticleName(articleEntity.getArticleName());
 
         Hashtable<String, Integer> wordCount = new Hashtable<String, Integer>();
-        for (ArticleTopWords article : articleEntyty.getWordsContorList()) {
+        if(articleEntity.getWordsContorList() == null || articleEntity.getWordsContorList().isEmpty())
+            return articleDTO;
+        for (ArticleTopWords article : articleEntity.getWordsContorList()) {
             wordCount.put(article.getWord(), article.getCount());
         }
         articleDTO.setWordCount(wordCount);

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `wikiindexer`.`articles` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `article_id` INT(11) NOT NULL AUTO_INCREMENT,
   `article_name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `article_name_UNIQUE` (`article_name` ASC))

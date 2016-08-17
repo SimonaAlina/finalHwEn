@@ -7,18 +7,20 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "article_top_words")
+//@NamedQuery(name="ArticleTopWords.findByArticle", query ="select w from ArticleTopWords w join w.article a where a.articleId = w.article.articleId")
 public class ArticleTopWords {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
     @Column(name = "word")
     private String word;
     @Column(name = "count")
     private Integer count;
 
-    @ManyToOne
-    @JoinColumn(name = "articleId")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "art_id")
     private Article article;
 
     public ArticleTopWords(String word, Integer count, Article article) {
@@ -30,6 +32,14 @@ public class ArticleTopWords {
 
     public ArticleTopWords() {
         super();
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public Article getArticle() {
+        return article;
     }
 
     public Long getId() {
