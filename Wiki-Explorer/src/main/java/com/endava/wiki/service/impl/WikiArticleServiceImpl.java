@@ -1,6 +1,5 @@
 package com.endava.wiki.service.impl;
 
-import com.endava.wiki.dto.ArticleDTO;
 import com.endava.wiki.parser.ContentParser;
 import com.endava.wiki.service.WikiArticleService;
 import org.apache.http.HttpResponse;
@@ -35,7 +34,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Override
     public String getContentFromWiki(String articleName) {
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&explaintext=&titles=" + articleName);
+        HttpPost request = new HttpPost("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&explaintext=&titles=" + articleName.toLowerCase());
         HttpResponse response = null;
 
         String content = null;
@@ -46,8 +45,10 @@ public class WikiArticleServiceImpl implements WikiArticleService {
 
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject pages = jsonObject.getJSONObject("query").getJSONObject("pages");
-            content = (String) pages.getJSONObject(pages.keys().next()).get("extract");
-            //System.out.println("Response:\n" + content);
+            JSONObject var = pages.getJSONObject(pages.keys().next());
+            if(var.has("extract") == false)
+                return "";
+            content = (String) var.get("extract");
 
         } catch (IOException e) {
             e.printStackTrace();
