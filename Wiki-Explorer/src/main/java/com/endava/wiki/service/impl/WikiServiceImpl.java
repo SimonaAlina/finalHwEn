@@ -52,6 +52,9 @@ public class WikiServiceImpl implements WikiService {
 
             Hashtable<String, Integer> wordsCount = wikiArticleService.parseContentResultFromWiki(title);
 
+            if(wordsCount == null)
+                return null;
+
             for (Map.Entry<String, Integer> entry : wordsCount.entrySet()) {
                 articleTopWordsDTO.setWord(entry.getKey());
                 articleTopWordsDTO.setCount(entry.getValue());

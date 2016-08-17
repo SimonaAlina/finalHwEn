@@ -27,6 +27,8 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     public Hashtable<String, Integer> parseContentResultFromWiki(String title) {
 
         String content = getContentFromWiki(title);
+        if(content == null)
+            return null;
         Hashtable<String, Integer> result = contentParser.parseContent(content);
         return result;
     }

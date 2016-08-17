@@ -47,6 +47,9 @@ public class ArticleController {
 
         ModelAndView mv = new ModelAndView("index");
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
+        if(result == null) {
+            System.out.println("There is not a wikipedia file result");
+        }
         //todo: sort hashtable and extract top ten
         mv.addObject("topWords", result);
 
