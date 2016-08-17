@@ -43,8 +43,6 @@ public class ArticleController {
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
     public ModelAndView getTopWords(@PathVariable String title) {
 
-        System.out.println("Controller: begining");
-
         ModelAndView mv = new ModelAndView("index");
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
         if(result == null) {

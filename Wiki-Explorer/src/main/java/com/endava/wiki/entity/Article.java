@@ -16,7 +16,7 @@ public class Article {
     @Column(name = "article_name")
     private String articleName;
 
-    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ArticleTopWords> wordsContorList;
 
     public Article(String articleName) {

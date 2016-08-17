@@ -23,7 +23,6 @@ public class MapEntityDTO {
         Article article = articleRepository.findFirstByArticleName(articleDTO.getArticleName());
         if (article == null) {
             article = new Article();
-            //article.setArticleId(articleDTO.getArticleId());
             article.setArticleName(articleDTO.getArticleName());
             if(articleDTO.getWordCount() == null || articleDTO.getWordCount().isEmpty())
                 return article;

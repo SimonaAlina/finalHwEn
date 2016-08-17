@@ -9,6 +9,7 @@ public class ArticleTopWordsDTO {
     private String word;
     private Integer count;
     private Long artId;
+    private ArticleDTO articleDTO;
 
     public ArticleTopWordsDTO() {
     }
@@ -49,6 +50,14 @@ public class ArticleTopWordsDTO {
 
     public void setArtId(Long artId) {
         this.artId = artId;
+    }
+
+    public ArticleDTO getArticleDTO() {
+        return articleDTO;
+    }
+
+    public void setArticleDTO(ArticleDTO articleDTO) {
+        this.articleDTO = articleDTO;
     }
 
     @Override
