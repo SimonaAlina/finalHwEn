@@ -29,6 +29,8 @@ public class ContentParser {
         COMMON_WORDS.add("on");
         COMMON_WORDS.add("to");
         COMMON_WORDS.add("the");
+        COMMON_WORDS.add("by");
+        COMMON_WORDS.add("or");
     }
 
     public Hashtable<String, Integer> parseContent(String content) {
