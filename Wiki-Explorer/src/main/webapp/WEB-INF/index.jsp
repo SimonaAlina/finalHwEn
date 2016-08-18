@@ -20,8 +20,7 @@
 
 <body>
 
-
-<form name="simpleSearchForm" action="/wikiapp/getTitle/" method="post">
+<form name="simpleSearchForm" action="${pageContext.request.contextPath}/wikiapp/getTitle/${singleWord}" method="post">
     <div align="center">
         Title: <br>
         <p><input type="text" placeholder="Write your title here" id="singleWord" name="singleWord" accept="txt/*"/></p>

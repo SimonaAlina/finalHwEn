@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.endava.wiki.dto.WordCountDto;
-import com.endava.wiki.service.ArticleService;
 import com.endava.wiki.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 @Controller
 @RequestMapping("/wikiapp")
@@ -24,19 +21,15 @@ public class ArticleController {
     @Autowired
     private WikiService wikiService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Integer> getTopWords(@PathVariable String title) {
 
-    @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
-    public ModelAndView getTopWords(@PathVariable String title) {
-
-        ModelAndView mv = new ModelAndView("index");
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
 
         if (result == null) {
             System.out.println("There is not a wikipedia file result");
-            mv.addObject("topWords", result);
-            return mv;
+            return null;
         }
 
         Map<String, Integer> sortedMap =
@@ -46,11 +39,9 @@ public class ArticleController {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
-        mv.addObject("topWords", sortedMap);
-
         System.out.println("Result:\n" + sortedMap);
 
-        return mv;
+        return sortedMap;
     }
 
     @RequestMapping(value = "/getTitles", method = RequestMethod.POST)
