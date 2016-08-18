@@ -34,7 +34,7 @@ public class ArticleController {
         List<WordCountDto> wc = Arrays.asList(new WordCountDto("gigel",2), new WordCountDto("ionel",3));
 
         ModelAndView mv = new ModelAndView("index");
-        mv.addObject("aBinding"," :) ");
+        mv.addObject("aBinding"," Search");
         mv.addObject("wordCount",wc);
 
         return mv;
