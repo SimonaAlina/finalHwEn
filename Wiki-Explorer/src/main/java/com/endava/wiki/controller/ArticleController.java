@@ -26,7 +26,7 @@ public class ArticleController {
 
     @Autowired
     private ApplicationContext applicationContext;
-    
+
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
     public ModelAndView getTopWords(@PathVariable String title) {
 
