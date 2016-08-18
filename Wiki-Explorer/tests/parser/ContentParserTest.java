@@ -1,3 +1,5 @@
+package parser;
+
 import com.endava.wiki.parser.ContentParser;
 import org.junit.After;
 import org.junit.Before;
