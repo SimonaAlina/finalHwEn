@@ -1,9 +1,8 @@
 body {
     /*height: 200px;*/
     /*width: 1400px;*/
-    background-image: url(../img/wallEEE.jpg); /*You will specify your image path here.*/
-    background-position: 0px, 0px,
-    center;
+    background-image: url(../img/wallE2.jpg); /*You will specify your image path here.*/
+    background-position: center ;
     background-repeat: no-repeat;
 
 }

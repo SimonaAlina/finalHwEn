@@ -9,6 +9,7 @@
 <head>
 
     <script src="/assets/js/wikiJS.js"></script>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/assets/css/background.css" />"/>
 
@@ -18,7 +19,7 @@
 
 
 <body>
-<h1>---Wiki---${aBinding}</h1>
+
 
 <form name="simpleSearchForm" action="/wikiapp/getTitle/" method="post">
     <div align="center">
