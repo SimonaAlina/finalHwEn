@@ -46,7 +46,6 @@ public class ArticleController {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
-        //sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         mv.addObject("topWords", sortedMap);
 
         System.out.println("Result:\n" + sortedMap);
@@ -63,9 +62,16 @@ public class ArticleController {
             String content = new String(file.getBytes());
             Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
 
+            if (result == null) {
+                System.out.println("Error: no file result");
+                mv.addObject("topWords", result);
+                return mv;
+            }
+
             Map<String, Integer> sortedMap =
                     result.entrySet().stream()
-                            .sorted(Map.Entry.comparingByValue())
+                            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                            .limit(10)
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                     (e1, e2) -> e1, LinkedHashMap::new));
             sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
