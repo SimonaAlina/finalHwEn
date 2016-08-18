@@ -35,29 +35,20 @@ public class WikiServiceImpl implements WikiService {
     @Transactional
     public Hashtable<String, Integer> getSimpleResult(String title) {
 
-        System.out.println("WikiService: begining");
-
         ArticleDTO articleDTO = articleService.getArticleByName(title);
 
         if (articleDTO == null) {
             articleDTO = new ArticleDTO();
             articleDTO.setArticleName(title);
-            articleDTO = articleService.saveArticle(articleDTO);
-
-            System.out.println("WikiService: articleDto saved:" + articleDTO);
-
-            ArticleTopWordsDTO articleTopWordsDTO = new ArticleTopWordsDTO();
-            articleTopWordsDTO.setArtId(articleDTO.getArticleId());
 
             Hashtable<String, Integer> wordsCount = wikiArticleService.parseContentResultFromWiki(title);
 
-            for (Map.Entry<String, Integer> entry : wordsCount.entrySet()) {
-                articleTopWordsDTO.setWord(entry.getKey());
-                articleTopWordsDTO.setCount(entry.getValue());
-                articleTopWordsService.saveArticleTopWords(articleTopWordsDTO);
+            if(wordsCount == null) {
+                return null;
+            } else {
+                articleDTO.setWordCount(wordsCount);
             }
-            articleDTO.setWordCount(wordsCount);
-
+            articleDTO = articleService.saveArticle(articleDTO);
         }
         return articleDTO.getWordCount();
     }

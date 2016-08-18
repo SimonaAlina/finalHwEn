@@ -40,10 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(readOnly = true)
     public ArticleDTO getArticleByName(String articleName) {
 
-        System.out.println("ArticleService: getArticleByName: " + articleName);
-
         Article article = articleRepository.findFirstByArticleName(articleName);
-        System.out.println("Find Article: " + article);
         // map entity to DTO
         if(article == null)
             return null;
@@ -69,7 +66,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public ArticleDTO saveArticle(ArticleDTO articleDTO) {
         Article article = mappingArticle.mapDtoToEntity(articleDTO);
-
         return mappingArticle.mapEntityToDto(articleRepository.save(article));
     }
 }

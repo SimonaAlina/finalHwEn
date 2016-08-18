@@ -1,9 +1,8 @@
 package com.endava.wiki.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.endava.wiki.dto.WordCountDto;
 import com.endava.wiki.service.ArticleService;
@@ -11,7 +10,6 @@ import com.endava.wiki.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,29 +26,29 @@ public class ArticleController {
 
     @Autowired
     private ApplicationContext applicationContext;
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getParamTest(@PathVariable Integer id) {
-        List<WordCountDto> wc = Arrays.asList(new WordCountDto("gigel",2), new WordCountDto("ionel",3));
-
-        ModelAndView mv = new ModelAndView("index");
-        mv.addObject("aBinding"," Search");
-        mv.addObject("wordCount",wc);
-
-        return mv;
-    }
-
+    
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET)
     public ModelAndView getTopWords(@PathVariable String title) {
 
-        System.out.println("Controller: begining");
-
         ModelAndView mv = new ModelAndView("index");
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
-        //todo: sort hashtable and extract top ten
-        mv.addObject("topWords", result);
 
-        System.out.println("Result:\n" + result);
+        if (result == null) {
+            System.out.println("There is not a wikipedia file result");
+            mv.addObject("topWords", result);
+            return mv;
+        }
+
+        Map<String, Integer> sortedMap =
+                result.entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .limit(10)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                (e1, e2) -> e1, LinkedHashMap::new));
+
+        mv.addObject("topWords", sortedMap);
+
+        System.out.println("Result:\n" + sortedMap);
 
         return mv;
     }
@@ -63,8 +61,21 @@ public class ArticleController {
         try {
             String content = new String(file.getBytes());
             Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
-            //todo: sort hashtable and extract top ten
-            mv.addObject("topWords", result);
+
+            if (result == null) {
+                System.out.println("Error: no file result");
+                mv.addObject("topWords", result);
+                return mv;
+            }
+
+            Map<String, Integer> sortedMap =
+                    result.entrySet().stream()
+                            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                            .limit(10)
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                    (e1, e2) -> e1, LinkedHashMap::new));
+            sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            mv.addObject("topWords", sortedMap);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +87,7 @@ public class ArticleController {
 
     //todo : properly handle exception
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String handleFormUpload (@RequestParam("theFile") MultipartFile file) throws Exception {
+    public String handleFormUpload(@RequestParam("theFile") MultipartFile file) throws Exception {
 
         String theContent = new String(file.getBytes());
 
