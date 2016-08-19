@@ -19,7 +19,9 @@ public class FileParser {
         Set<String> result = new HashSet<String>();
         StringTokenizer token = new StringTokenizer(content, delimiters);
         while (token.hasMoreTokens()) {
-            result.add(token.nextToken());
+            String titleSearch = token.nextToken();
+            titleSearch = titleSearch.replaceAll("\\s+", "+");
+            result.add(titleSearch);
         }
         return result;
     }

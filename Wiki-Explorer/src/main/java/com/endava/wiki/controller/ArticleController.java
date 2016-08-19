@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @Controller
@@ -31,7 +30,7 @@ public class ArticleController {
 
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
 
-        if (result == null) {
+        if (result == null || result.isEmpty()) {
             System.out.println("There is not a wikipedia file result");
             return null;
         }
@@ -53,11 +52,12 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Integer> getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
 
-//        Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
-//        String content = new String(Files.readAllBytes(path));
-
         String content = null;
+
         try {
+            //Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
+            //content = new String(Files.readAllBytes(path));
+
             content = new String(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
