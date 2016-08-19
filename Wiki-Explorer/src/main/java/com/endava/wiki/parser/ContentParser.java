@@ -31,6 +31,15 @@ public class ContentParser {
         COMMON_WORDS.add("the");
         COMMON_WORDS.add("by");
         COMMON_WORDS.add("or");
+        COMMON_WORDS.add("as");
+        COMMON_WORDS.add("are");
+        COMMON_WORDS.add("that");
+        COMMON_WORDS.add("their");
+        COMMON_WORDS.add("with");
+        COMMON_WORDS.add("or");
+        COMMON_WORDS.add("at");
+        COMMON_WORDS.add("'s");
+
     }
 
     public Hashtable<String, Integer> parseContent(String content) {
