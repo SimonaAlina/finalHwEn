@@ -12,4 +12,6 @@ public interface WikiService {
     Hashtable<String, Integer> getSimpleResult(String title);
 
     Hashtable<String, Integer> getMultipleResult(String content);
+
+    Hashtable<String, Integer> getMultipleResultWithThreads(String content);
 }

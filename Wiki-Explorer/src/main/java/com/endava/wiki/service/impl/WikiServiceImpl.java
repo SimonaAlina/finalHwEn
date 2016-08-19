@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by sroboiu on 16-Aug-16.
@@ -31,6 +30,8 @@ public class WikiServiceImpl implements WikiService {
     @Autowired
     FileParser fileParser;
 
+    private static final int NR_THREADS = 4;
+
     @Override
     @Transactional
     public Hashtable<String, Integer> getSimpleResult(String title) {
@@ -45,7 +46,7 @@ public class WikiServiceImpl implements WikiService {
 
             Hashtable<String, Integer> wordsCount = wikiArticleService.parseContentResultFromWiki(title);
 
-            if(wordsCount == null) {
+            if (wordsCount == null) {
                 return new Hashtable<String, Integer>();
             } else {
                 articleDTO.setWordCount(wordsCount);
@@ -67,14 +68,56 @@ public class WikiServiceImpl implements WikiService {
         Hashtable<String, Integer> result = new Hashtable<String, Integer>();
         for (String title : titles) {
             Hashtable<String, Integer> hashResult = getSimpleResult(title);
-            if(hashResult == null || hashResult.isEmpty())
+            if (hashResult == null || hashResult.isEmpty())
                 continue;
             for (final Map.Entry<String, Integer> entrySet : hashResult.entrySet()) {
-                if(result.containsKey(entrySet.getKey()))
+                if (result.containsKey(entrySet.getKey()))
                     result.computeIfPresent(entrySet.getKey(), (k, v) -> v + entrySet.getValue());
                 else
                     result.put(entrySet.getKey(), entrySet.getValue());
             }
+        }
+        return result;
+    }
+
+    @Override
+    public synchronized Hashtable<String, Integer> getMultipleResultWithThreads(String content) {
+
+        Set<String> titles = fileParser.parseInputFile(content);
+        if (titles == null || titles.isEmpty())
+            return null;
+
+        Hashtable<String, Integer> result = new Hashtable<String, Integer>();
+
+        MultiThreadsWikiService[] workers = new MultiThreadsWikiService[NR_THREADS];
+
+        int contor = 0;
+        int chunk = titles.size() / NR_THREADS;
+
+        List<String> listTitles = new ArrayList<>(titles);
+
+        for (int i = 0; i < workers.length; ++i) {
+            List<String> titlesName = new ArrayList<>();
+            //todo: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // contor + agregate result
+            System.out.println("start = " + contor + " ; end" + contor + chunk);
+
+            for (int j = contor; j < contor + chunk; j++) {
+                titlesName.add(listTitles.get(j));
+            }
+            contor += chunk;
+            workers[i] = new MultiThreadsWikiService(titlesName);
+            workers[i].start();
+        }
+
+        for (int i = 0; i < NR_THREADS; ++i) {
+
+            try {
+                workers[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
         return result;
     }
