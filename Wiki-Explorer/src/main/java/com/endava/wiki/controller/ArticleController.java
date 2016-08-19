@@ -49,9 +49,9 @@ public class ArticleController {
         return sortedMap;
     }
 
-    @RequestMapping(value = "/getTitles", method = RequestMethod.POST)
+    @RequestMapping(value = "/getTitles", method = RequestMethod.POST, consumes = "multipart/form-data", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Integer>  getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
+    public Map<String, Integer> getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
 
         ModelAndView mv = new ModelAndView("index");
 
