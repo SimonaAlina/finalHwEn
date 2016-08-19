@@ -1,3 +1,5 @@
+package parser;
+
 import com.endava.wiki.parser.FileParser;
 import org.junit.Before;
 import org.junit.Test;
