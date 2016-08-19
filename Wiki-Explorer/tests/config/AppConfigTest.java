@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -64,8 +65,9 @@ public class AppConfigTest {
 
     @Test
     public void servletMultipartResolver() throws Exception {
-        when(appConfig.servletMultipartResolver())
-                .thenReturn(new StandardServletMultipartResolver());
+        when(appConfig.multipartResolver())
+                .thenReturn(new CommonsMultipartResolver());
+
     }
 
 }
