@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @Controller
 @RequestMapping("/wikiapp")
 @Scope(value = "session")
@@ -20,8 +21,7 @@ public class ArticleController {
 
     @Autowired
     private WikiService wikiService;
-
-    @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Integer> getTopWords(@PathVariable String title) {
 
