@@ -1,6 +1,9 @@
 package com.endava.wiki.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,7 @@ public class ArticleController {
 
     @Autowired
     private WikiService wikiService;
+
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Integer> getTopWords(@PathVariable String title) {
@@ -39,58 +43,47 @@ public class ArticleController {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
+        System.out.println("Search: " + title);
         System.out.println("Result:\n" + sortedMap);
 
         return sortedMap;
     }
 
     @RequestMapping(value = "/getTitles", method = RequestMethod.POST)
-    public ModelAndView getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
+    @ResponseBody
+    public Map<String, Integer>  getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
 
         ModelAndView mv = new ModelAndView("index");
 
-        try {
-            String content = new String(file.getBytes());
-            Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
+//        Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
+//        String content = new String(Files.readAllBytes(path));
 
-            if (result == null) {
-                System.out.println("Error: no file result");
-                mv.addObject("topWords", result);
-                return mv;
-            }
-
-            Map<String, Integer> sortedMap =
-                    result.entrySet().stream()
-                            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                            .limit(10)
-                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                                    (e1, e2) -> e1, LinkedHashMap::new));
-            sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            mv.addObject("topWords", sortedMap);
-
+        String content = null;
+        try {git
+            content = new String(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
 
-        return mv;
+        if (result == null) {
+            System.out.println("Error: smth was wrong");
+            mv.addObject("topWords", result);
+            return null;
+        }
 
+        Map<String, Integer> sortedMap =
+                result.entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .limit(10)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                (e1, e2) -> e1, LinkedHashMap::new));
+        sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        mv.addObject("topWords", sortedMap);
+
+        System.out.println("Result agregated from input file:\n" + sortedMap);
+
+        return sortedMap;
     }
-
-    //todo : properly handle exception
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String handleFormUpload(@RequestParam("theFile") MultipartFile file) throws Exception {
-
-        String theContent = new String(file.getBytes());
-
-        return "";
-    }
-
-    //todo : metoda pt. upload fisiere
-    //todo ; parsare fisier de upload (cu titluri)
-
-    //todo : service responsabil cu download.
-    //todo : service responsabil cu parsarea continutului unui wiki intoarce (Map<String, Int>)
-    //todo : service + repo + entitati : responsabile cu DB.
-    //todo : multithreading.
 
 }

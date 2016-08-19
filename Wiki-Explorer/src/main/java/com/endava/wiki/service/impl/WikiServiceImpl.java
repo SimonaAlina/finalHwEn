@@ -64,7 +64,10 @@ public class WikiServiceImpl implements WikiService {
         for (String title : titles) {
 
             for (final Map.Entry<String, Integer> entrySet : getSimpleResult(title).entrySet()) {
-                result.computeIfPresent(entrySet.getKey(), (k, v) -> v + entrySet.getValue());
+                if(result.containsKey(entrySet.getKey()))
+                    result.computeIfPresent(entrySet.getKey(), (k, v) -> v + entrySet.getValue());
+                else
+                    result.put(entrySet.getKey(), entrySet.getValue());
             }
         }
         return result;

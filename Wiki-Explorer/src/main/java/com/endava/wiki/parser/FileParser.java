@@ -13,6 +13,9 @@ public class FileParser {
 
     public Set<String> parseInputFile(String content) {
 
+        if(content == null || content.isEmpty())
+            return null;
+
         Set<String> result = new HashSet<String>();
         StringTokenizer token = new StringTokenizer(content, delimiters);
         while (token.hasMoreTokens()) {
