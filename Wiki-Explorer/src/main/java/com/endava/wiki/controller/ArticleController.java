@@ -59,7 +59,7 @@ public class ArticleController {
 //        String content = new String(Files.readAllBytes(path));
 
         String content = null;
-        try {git
+        try {
             content = new String(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
