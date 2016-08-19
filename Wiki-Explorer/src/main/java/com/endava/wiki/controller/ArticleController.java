@@ -53,8 +53,6 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Integer> getTopWordsFromFiles(@RequestParam("file") MultipartFile file) {
 
-        ModelAndView mv = new ModelAndView("index");
-
 //        Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
 //        String content = new String(Files.readAllBytes(path));
 
@@ -68,7 +66,6 @@ public class ArticleController {
 
         if (result == null) {
             System.out.println("Error: smth was wrong");
-            mv.addObject("topWords", result);
             return null;
         }
 
@@ -79,7 +76,6 @@ public class ArticleController {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
         sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        mv.addObject("topWords", sortedMap);
 
         System.out.println("Result agregated from input file:\n" + sortedMap);
 

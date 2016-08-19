@@ -10,12 +10,14 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -83,13 +85,21 @@ public class AppConfig {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
+// delete
+//    @Bean
+//    public StandardServletMultipartResolver servletMultipartResolver(){
+//        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+//        return multipartResolver;
+//    }
+
     @Bean
-    public StandardServletMultipartResolver servletMultipartResolver(){
-        StandardServletMultipartResolver multipartResolver =new StandardServletMultipartResolver();
-        return multipartResolver;
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        return  multipartResolver;
     }
 
-//delete
+
+// delete
 //    @Bean
 //    public WebMvcConfigurer corsConfigurer() {
 //        return new WebMvcConfigurerAdapter() {
