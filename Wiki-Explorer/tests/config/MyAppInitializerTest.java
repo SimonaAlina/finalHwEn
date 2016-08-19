@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MyAppInitializerTest {
-    
+
     @Test
     public void onStartup() throws Exception {
 
