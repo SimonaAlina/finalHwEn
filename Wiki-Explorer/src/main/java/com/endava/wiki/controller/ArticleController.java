@@ -28,6 +28,8 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Integer> getTopWords(@PathVariable String title) {
 
+        long start = System.currentTimeMillis();
+
         Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
 
         if (result == null || result.isEmpty()) {
@@ -42,8 +44,11 @@ public class ArticleController {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
+        long end = System.currentTimeMillis();
+
         System.out.println("Search: " + title);
         System.out.println("Result:\n" + sortedMap);
+        System.out.println("Total time: " + (end - start));
 
         return sortedMap;
     }
@@ -62,6 +67,9 @@ public class ArticleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        long start = System.currentTimeMillis();
+
         Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
 
         if (result == null) {
@@ -77,7 +85,10 @@ public class ArticleController {
                                 (e1, e2) -> e1, LinkedHashMap::new));
         sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+        long end = System.currentTimeMillis();
+
         System.out.println("Result agregated from input file:\n" + sortedMap);
+        System.out.println("Total time: " + (end - start));
 
         return sortedMap;
     }
