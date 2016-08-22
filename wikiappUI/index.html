@@ -1,0 +1,76 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Wiki App</title>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="assets/demo.css">
+    <link rel="stylesheet" href="assets/form-basic.css">
+    <link href="js/c3-0.4.11/c3.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+
+    <!-- Load d3.js and c3.js -->
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/c3-0.4.11/c3.js"></script>
+    <script src="js/script.js"></script>
+
+
+</head>
+
+<body>
+
+<header class="form-basic" style= "margin:0px;padding:0px" method="post" action="#">
+
+    <div>
+        <br/><h1>Wikipedia Application</h1>
+    </div>
+
+    <br/>
+
+    <div class="form-row col-sm-6 col-lg-offset-2">
+        <label style="color: ghostwhite">Search Single Title:</label>
+
+        <div class="row">
+            <p><input class="left" type="text" id="wordSearch" name="name" placeholder="Write your title..."></p>
+            <p><input class="btn btn-primary left" type="submit" value="Search" onclick="sendRequestFunction()"/></p>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label style="color: ghostwhite">Search From File:</label>
+        <p><input class="btn btn-primary left" type="file" name="file" id="fileLoader"/></p>
+        <p><input class="btn btn-primary left" type="button" id="fileSubmit" value="Upload"/></p>
+    </div>
+</header>
+
+<div id="result">
+	<h4 style="text-decoration: none; font-family: courier; font-size: 160%; font-weight: bold;">Result:</h4>
+	<label id="errorMessage"></label>
+	<center id="imgM">
+		<img src="assets/images/minions.jpg" alt="Minions..." style="align: middle">
+	</center>
+</div>
+
+<div class="main-content">
+    <div id="chart"></div>
+	<label id="time"></label>
+	<label id="source"></label>
+</div>
+<div>
+    <p>&copy; 2016 Wikipedia Application by Pitesti Team<p>
+</div>
+
+</body>
+
+</html>
