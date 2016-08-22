@@ -41,12 +41,13 @@ public class WikiServiceImpl implements WikiService {
             Hashtable<String, Integer> wordsCount = wikiArticleService.parseContentResultFromWiki(title);
             articleDTO.setWordCount(wordsCount);
 
-            if (wordsCount == null) {
+            if (wordsCount == null || wordsCount.isEmpty()) {
                 return articleDTO;
             }
 
             try {
                 articleDTO = articleService.saveArticle(articleDTO);
+                articleDTO.setSource(1);
             } catch (RuntimeException e) {
                 System.out.println(e.getCause() + "for title:" + articleDTO.getArticleName());
             }

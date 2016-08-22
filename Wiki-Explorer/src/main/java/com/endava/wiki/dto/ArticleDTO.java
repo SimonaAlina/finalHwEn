@@ -17,13 +17,13 @@ public class ArticleDTO {
     @NotNull
     private String articleName;
 
-    //0 - DB; 1 - Wikipedia
+    //0 - DB; 1 - Wikipedia; 2 - fileUpload(multiple titles)
     private Integer source;
     //time in ms
     private Integer time;
 
     private Hashtable<String, Integer> wordCount;
-    
+
     public Hashtable<String, Integer> getWordCount() {
         return wordCount;
     }

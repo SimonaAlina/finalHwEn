@@ -10,6 +10,6 @@ Open wikiapp application on a server on port 8081.
 Use graphic interface for make requests to controller and receive responses.
 
 ### Dev:
-Bogdan
-Ionut
-Simona
+- Bogdan
+- Ionut
+- Simona
