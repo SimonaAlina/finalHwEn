@@ -27,7 +27,7 @@ public class WikiServiceImpl implements WikiService {
 
     @Override
     @Transactional
-    public Hashtable<String, Integer> getSimpleResult(String title) {
+    public ArticleDTO getSimpleResult(String title) {
 
         title = title.replaceAll("\\s+", "+");
         ArticleDTO articleDTO = articleService.getArticleByName(title);
@@ -36,13 +36,13 @@ public class WikiServiceImpl implements WikiService {
             System.out.println("Get result from Wikipedia");
             articleDTO = new ArticleDTO();
             articleDTO.setArticleName(title);
+            articleDTO.setSource(1);
 
             Hashtable<String, Integer> wordsCount = wikiArticleService.parseContentResultFromWiki(title);
+            articleDTO.setWordCount(wordsCount);
 
             if (wordsCount == null) {
-                return new Hashtable<String, Integer>();
-            } else {
-                articleDTO.setWordCount(wordsCount);
+                return articleDTO;
             }
 
             try {
@@ -52,8 +52,9 @@ public class WikiServiceImpl implements WikiService {
             }
         } else {
             System.out.println("Get result from Database");
+            articleDTO.setSource(0);
         }
-        return articleDTO.getWordCount();
+        return articleDTO;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class WikiServiceImpl implements WikiService {
 
         Hashtable<String, Integer> result = new Hashtable<String, Integer>();
         for (String title : titles) {
-            Hashtable<String, Integer> hashResult = getSimpleResult(title);
+            Hashtable<String, Integer> hashResult = getSimpleResult(title).getWordCount();
             if (hashResult == null || hashResult.isEmpty())
                 continue;
             for (Map.Entry<String, Integer> entrySet : hashResult.entrySet()) {

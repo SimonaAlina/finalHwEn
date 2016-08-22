@@ -17,6 +17,11 @@ public class ArticleDTO {
     @NotNull
     private String articleName;
 
+    //0 - DB; 1 - Wikipedia
+    private Integer source;
+    //time in ms
+    private Integer time;
+
     private Hashtable<String, Integer> wordCount;
     
     public Hashtable<String, Integer> getWordCount() {
@@ -41,6 +46,22 @@ public class ArticleDTO {
 
     public void setArticleName(String articleName) {
         this.articleName = articleName;
+    }
+
+    public Integer getSource() {
+        return source;
+    }
+
+    public void setSource(Integer source) {
+        this.source = source;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     @Override

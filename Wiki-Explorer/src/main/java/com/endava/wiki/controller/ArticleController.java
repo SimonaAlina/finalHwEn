@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.endava.wiki.dto.ArticleDTO;
 import com.endava.wiki.service.WikiService;
 import com.endava.wiki.service.MultiThreadsWikiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,8 @@ public class ArticleController {
 
         long start = System.currentTimeMillis();
 
-        Hashtable<String, Integer> result = wikiService.getSimpleResult(title);
+        ArticleDTO articleDTOresult = wikiService.getSimpleResult(title);
+        Hashtable<String, Integer> result = articleDTOresult.getWordCount();
 
         if (result == null || result.isEmpty()) {
             System.out.println("There is not a wikipedia file result");
@@ -50,6 +52,9 @@ public class ArticleController {
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
         long end = System.currentTimeMillis();
+
+        sortedMap.put("time", (int)((end - start)));
+        sortedMap.put("source", articleDTOresult.getSource());
 
         System.out.println("Search: " + title);
         System.out.println("Result:\n" + sortedMap);
@@ -87,6 +92,9 @@ public class ArticleController {
                                 (e1, e2) -> e1, LinkedHashMap::new));
 
         long end = System.currentTimeMillis();
+
+        sortedMap.put("time", (int)((end - start)));
+        sortedMap.put("source", 2);
 
         System.out.println("Result agregated from input file:\n" + sortedMap);
         System.out.println("Total time: " + (end - start));

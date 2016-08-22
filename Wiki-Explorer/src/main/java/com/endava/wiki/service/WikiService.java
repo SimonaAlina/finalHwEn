@@ -9,7 +9,7 @@ import java.util.Hashtable;
  */
 public interface WikiService {
 
-    Hashtable<String, Integer> getSimpleResult(String title);
+    ArticleDTO getSimpleResult(String title);
 
     Hashtable<String, Integer> getMultipleResultWithoutThreads(String content);
 }
