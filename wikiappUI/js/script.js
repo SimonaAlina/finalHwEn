@@ -61,7 +61,7 @@ function sendRequestFunction() {
     xhr.onload = function () {
         var response = xhr.responseText;
         if (!response) {
-            document.getElementById("errorMessage").innerText = "No result was founded!";
+            document.getElementById("errorMessage").innerText = "No result was found!";
 			document.getElementById("chart").style.visibility = "hidden";
 			document.getElementById("imgM").style.display = "block";
         }
@@ -117,7 +117,7 @@ function processUpload() {
         success: function (result) {
             console.log(result);
             if (result == null || Object.keys(result).length === 0 ){
-                document.getElementById("errorMessage").innerText = "No result was founded!";
+                document.getElementById("errorMessage").innerText = "No result was found!";
 				document.getElementById("chart").style.visibility = "hidden";
 				document.getElementById("imgM").style.display = "block";
             }
@@ -133,7 +133,7 @@ function processUpload() {
             console.log("error");
 			document.getElementById("chart").style.visibility = "hidden";
 			document.getElementById("imgM").style.display = "block";
-            document.getElementById("errorMessage").innerText = "No result was founded! Please upload a correct file";
+            document.getElementById("errorMessage").innerText = "No result was found! Please upload a correct file";
         }
 
     });
