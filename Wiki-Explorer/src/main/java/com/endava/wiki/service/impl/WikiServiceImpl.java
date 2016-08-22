@@ -1,19 +1,16 @@
 package com.endava.wiki.service.impl;
 
 import com.endava.wiki.dto.ArticleDTO;
-import com.endava.wiki.dto.ArticleTopWordsDTO;
 import com.endava.wiki.parser.FileParser;
 import com.endava.wiki.service.ArticleService;
-import com.endava.wiki.service.ArticleTopWordsService;
 import com.endava.wiki.service.WikiArticleService;
 import com.endava.wiki.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by sroboiu on 16-Aug-16.
@@ -26,11 +23,7 @@ public class WikiServiceImpl implements WikiService {
     @Autowired
     WikiArticleService wikiArticleService;
     @Autowired
-    ArticleTopWordsService articleTopWordsService;
-    @Autowired
     FileParser fileParser;
-
-    private static final int NR_THREADS = 4;
 
     @Override
     @Transactional
@@ -51,7 +44,12 @@ public class WikiServiceImpl implements WikiService {
             } else {
                 articleDTO.setWordCount(wordsCount);
             }
-            articleDTO = articleService.saveArticle(articleDTO);
+
+            try {
+                articleDTO = articleService.saveArticle(articleDTO);
+            } catch (RuntimeException e) {
+                System.out.println(e.getCause() + "for title:" + articleDTO.getArticleName());
+            }
         } else {
             System.out.println("Get result from Database");
         }
@@ -59,7 +57,7 @@ public class WikiServiceImpl implements WikiService {
     }
 
     @Override
-    public Hashtable<String, Integer> getMultipleResult(String content) {
+    public Hashtable<String, Integer> getMultipleResultWithoutThreads(String content) {
 
         Set<String> titles = fileParser.parseInputFile(content);
         if (titles == null || titles.isEmpty())
@@ -70,7 +68,7 @@ public class WikiServiceImpl implements WikiService {
             Hashtable<String, Integer> hashResult = getSimpleResult(title);
             if (hashResult == null || hashResult.isEmpty())
                 continue;
-            for (final Map.Entry<String, Integer> entrySet : hashResult.entrySet()) {
+            for (Map.Entry<String, Integer> entrySet : hashResult.entrySet()) {
                 if (result.containsKey(entrySet.getKey()))
                     result.computeIfPresent(entrySet.getKey(), (k, v) -> v + entrySet.getValue());
                 else
@@ -80,45 +78,4 @@ public class WikiServiceImpl implements WikiService {
         return result;
     }
 
-    @Override
-    public synchronized Hashtable<String, Integer> getMultipleResultWithThreads(String content) {
-
-        Set<String> titles = fileParser.parseInputFile(content);
-        if (titles == null || titles.isEmpty())
-            return null;
-
-        Hashtable<String, Integer> result = new Hashtable<String, Integer>();
-
-        MultiThreadsWikiService[] workers = new MultiThreadsWikiService[NR_THREADS];
-
-        int contor = 0;
-        int chunk = titles.size() / NR_THREADS;
-
-        List<String> listTitles = new ArrayList<>(titles);
-
-        for (int i = 0; i < workers.length; ++i) {
-            List<String> titlesName = new ArrayList<>();
-            //todo: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // contor + agregate result
-            System.out.println("start = " + contor + " ; end" + contor + chunk);
-
-            for (int j = contor; j < contor + chunk; j++) {
-                titlesName.add(listTitles.get(j));
-            }
-            contor += chunk;
-            workers[i] = new MultiThreadsWikiService(titlesName);
-            workers[i].start();
-        }
-
-        for (int i = 0; i < NR_THREADS; ++i) {
-
-            try {
-                workers[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return result;
-    }
 }

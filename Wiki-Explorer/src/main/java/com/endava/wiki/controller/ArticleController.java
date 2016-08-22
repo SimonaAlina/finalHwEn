@@ -8,11 +8,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.endava.wiki.service.WikiService;
+import com.endava.wiki.service.MultiThreadsWikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
@@ -23,6 +24,8 @@ public class ArticleController {
 
     @Autowired
     private WikiService wikiService;
+    @Autowired
+    private MultiThreadsWikiService multiThreadsWikiService;
 
     @RequestMapping(value = "/getTitle/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -34,6 +37,8 @@ public class ArticleController {
 
         if (result == null || result.isEmpty()) {
             System.out.println("There is not a wikipedia file result");
+            long end = System.currentTimeMillis();
+            System.out.println("Total time: " + (end - start));
             return null;
         }
 
@@ -60,9 +65,6 @@ public class ArticleController {
         String content = null;
 
         try {
-            //Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
-            //content = new String(Files.readAllBytes(path));
-
             content = new String(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +72,7 @@ public class ArticleController {
 
         long start = System.currentTimeMillis();
 
-        Hashtable<String, Integer> result = wikiService.getMultipleResult(content);
+        Hashtable<String, Integer> result = multiThreadsWikiService.getMultipleResults(content);
 
         if (result == null) {
             System.out.println("Error: smth was wrong");
@@ -83,11 +85,49 @@ public class ArticleController {
                         .limit(10)
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
-        sortedMap = sortedMap.entrySet().stream().limit(10).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         long end = System.currentTimeMillis();
 
         System.out.println("Result agregated from input file:\n" + sortedMap);
+        System.out.println("Total time: " + (end - start));
+
+        return sortedMap;
+    }
+
+    // method for search articles on wikipedia from local file
+    @RequestMapping(value = "/getTitlesFromLocal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, Integer> getTopWordsFromLocalFile() {
+
+        String content = null;
+
+        try {
+            Path path = Paths.get("D:\\homework\\Wiki-Explorer\\file.txt");
+            content = new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long start = System.currentTimeMillis();
+
+        //Hashtable<String, Integer> result = wikiService.getMultipleResultWithoutThreads(content);
+        Hashtable<String, Integer> result = multiThreadsWikiService.getMultipleResults(content);
+
+        if (result == null) {
+            System.out.println("Error: smth was wrong");
+            return null;
+        }
+
+        Map<String, Integer> sortedMap =
+                result.entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .limit(10)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                (e1, e2) -> e1, LinkedHashMap::new));
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("Result agregated from local file:\n" + sortedMap);
         System.out.println("Total time: " + (end - start));
 
         return sortedMap;

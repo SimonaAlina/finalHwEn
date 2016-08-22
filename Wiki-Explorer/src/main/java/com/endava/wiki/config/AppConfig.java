@@ -85,28 +85,10 @@ public class AppConfig {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-// delete
-//    @Bean
-//    public StandardServletMultipartResolver servletMultipartResolver(){
-//        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-//        return multipartResolver;
-//    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         return  multipartResolver;
     }
-
-
-// delete
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurerAdapter() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/*").allowedOrigins("http://localhost:8081");
-//            }
-//        };
-//    }
 }
