@@ -5,6 +5,7 @@ import com.endava.wiki.parser.FileParser;
 import com.endava.wiki.service.ArticleService;
 import com.endava.wiki.service.WikiArticleService;
 import com.endava.wiki.service.WikiService;
+import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class WikiServiceImpl implements WikiService {
     @Transactional
     public ArticleDTO getSimpleResult(String title) {
 
+        title = WordUtils.capitalizeFully(title);
         title = title.replaceAll("\\s+", "_");
         ArticleDTO articleDTO = articleService.getArticleByName(title);
 
