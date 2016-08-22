@@ -20,7 +20,7 @@ public class FileParser {
         StringTokenizer token = new StringTokenizer(content, delimiters);
         while (token.hasMoreTokens()) {
             String titleSearch = token.nextToken();
-            titleSearch = titleSearch.replaceAll("\\s+", "+");
+            titleSearch = titleSearch.replaceAll("\\s+", "_");
             result.add(titleSearch);
         }
         return result;

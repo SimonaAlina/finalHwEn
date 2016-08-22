@@ -27,7 +27,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     public Hashtable<String, Integer> parseContentResultFromWiki(String title) {
 
         String content = getContentFromWiki(title);
-        if(content == null)
+        if (content == null)
             return null;
         Hashtable<String, Integer> result = contentParser.parseContent(content);
         return result;
@@ -48,7 +48,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject pages = jsonObject.getJSONObject("query").getJSONObject("pages");
             JSONObject var = pages.getJSONObject(pages.keys().next());
-            if(var.has("extract") == false)
+            if (var.has("extract") == false)
                 return "";
             content = (String) var.get("extract");
 
