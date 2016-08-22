@@ -39,6 +39,7 @@ public class ContentParser {
         COMMON_WORDS.add("or");
         COMMON_WORDS.add("at");
         COMMON_WORDS.add("'s");
+        COMMON_WORDS.add("an");
 
     }
 

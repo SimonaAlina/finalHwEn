@@ -29,7 +29,7 @@ public class WikiServiceImpl implements WikiService {
     @Transactional
     public ArticleDTO getSimpleResult(String title) {
 
-        title = title.replaceAll("\\s+", "+");
+        title = title.replaceAll("\\s+", "_");
         ArticleDTO articleDTO = articleService.getArticleByName(title);
 
         if (articleDTO == null) {
