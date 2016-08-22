@@ -1,6 +1,7 @@
 package service;
 
 import com.endava.wiki.dto.ArticleDTO;
+import com.endava.wiki.entity.Article;
 import com.endava.wiki.parser.FileParser;
 import com.endava.wiki.service.ArticleService;
 import com.endava.wiki.service.ArticleTopWordsService;
@@ -51,7 +52,7 @@ public class WikiServiceImplTest {
     public void verify_class_methods() throws Exception {
         {
             when(wikiService.getSimpleResult(any(String.class)))
-                    .thenReturn(new Hashtable<String, Integer>());
+                    .thenReturn(new ArticleDTO());
             when(articleService.getArticleByName(any(String.class)))
                     .thenReturn(new ArticleDTO());
             when(wikiArticleService.parseContentResultFromWiki(any(String.class)))
@@ -60,7 +61,7 @@ public class WikiServiceImplTest {
                     .thenReturn(new ArticleDTO());
         }
         {
-            when(wikiService.getMultipleResult(any(String.class)))
+            when(wikiService.getMultipleResultWithoutThreads(any(String.class)))
                     .thenReturn(new Hashtable<String, Integer>());
             when(fileParser.parseInputFile(any(String.class)))
                     .thenReturn(new HashSet<String>());
