@@ -71,6 +71,7 @@ function sendRequestFunction() {
 			document.getElementById("chart").style.visibility = "visible";
             
             document.getElementById("time").innerText = "Time: " + time + " ms;";
+            console.log(source);
             if(source == 0)
                 document.getElementById("source").innerText = "Source: Database";
             if(source == 1)
