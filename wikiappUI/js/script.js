@@ -1,20 +1,34 @@
-/*
+﻿/*
  Javascript
  */
 
 
+//in ms
+var time;
+//0 - DB; 1- Wikipedia; 2 - no source (multiple words)
+var source;
 function parseJsonToArray(jsonObj) {
     var result = [];
     if (typeof jsonObj == "object")
         var jsonObjParsed = jsonObj;
     else
         var jsonObjParsed = JSON.parse(jsonObj);
-    for (var key in jsonObjParsed) {
-        result.push([key, jsonObjParsed[key]]);
 
+    //var size = Object.keys(jsonObjParsed).length;
+
+    for (var key in jsonObjParsed) {
+        if (key == "time") {
+            time = jsonObjParsed[key];
+        } else if (key == "source") {
+            source = jsonObjParsed[key];
+        } else {
+            result.push([key, jsonObjParsed[key]]);
+        }
     }
+
     return result;
 };
+
 
 function populateBarChart(objResult) {
 
@@ -38,8 +52,9 @@ function populateBarChart(objResult) {
 
 function sendRequestFunction() {
 	document.getElementById("errorMessage").innerText = "";
-	//document.getElementById("wordSearch").value = "";
-	
+    document.getElementById("source").innerText = "";
+    document.getElementById("time").innerText = "";
+
     var xhr = new XMLHttpRequest();
     var searchText = document.getElementById("wordSearch").value;
     xhr.open("GET", "http://localhost:8080/wikiapp/getTitle/" + searchText, true);
@@ -54,6 +69,12 @@ function sendRequestFunction() {
 			populateBarChart(response);
 			document.getElementById("imgM").style.display = "none";
 			document.getElementById("chart").style.visibility = "visible";
+            
+            document.getElementById("time").innerText = "Time: " + time + " ms;";
+            if(source == 0)
+                document.getElementById("source").innerText = "Source: Database";
+            if(source == 1)
+                document.getElementById("source").innerText = "Source: Wikipedia";
 		}
     };
     xhr.send();
@@ -78,7 +99,9 @@ $(document)
 
 function processUpload() {
 	document.getElementById("errorMessage").innerText = "";
-	
+    document.getElementById("source").innerText = "";
+    document.getElementById("time").innerText = "";
+    
     var oMyForm = new FormData();
     oMyForm.append("file", files[0]);
 
@@ -101,6 +124,8 @@ function processUpload() {
                 populateBarChart(result);
 				document.getElementById("imgM").style.display = "none";
 				document.getElementById("chart").style.visibility = "visible";
+
+                document.getElementById("time").innerText = "Time: " + time + " ms;";
 			}
         },
         error: function (result) {
@@ -109,5 +134,6 @@ function processUpload() {
 			document.getElementById("imgM").style.display = "block";
             document.getElementById("errorMessage").innerText = "No result was founded! Please upload a correct file";
         }
+
     });
 }
